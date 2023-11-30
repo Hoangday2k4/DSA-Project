@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class App {
     public static void main(String[] args) {
-       SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             MainFrame mainFrame = new MainFrame();
         });
     }
@@ -20,7 +20,7 @@ public class App {
         Random random = new Random();
 
         for (int i = 0; i < size; i++) {
-            arr[i] = random.nextInt(100);
+            arr[i] = random.nextInt(300);
         }
 
         return arr;
@@ -28,8 +28,11 @@ public class App {
 
     public static List<String> getListSorting() {
         List<String> sortingList = new ArrayList<>();
-        sortingList.add("1");
-        sortingList.add("2");
+        sortingList.add("Bubble sort");
+        sortingList.add("Insertion sort");
+        sortingList.add("Selection sort");
+        sortingList.add("Quick sort");
+        sortingList.add("Merge sort");
 
         return sortingList;
     }
