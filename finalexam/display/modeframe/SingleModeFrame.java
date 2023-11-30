@@ -1,9 +1,7 @@
 package finalexam.display.modeframe;
 
 import finalexam.App;
-import finalexam.defaultsorting.BubbleSort;
-import finalexam.defaultsorting.InsertionSort;
-import finalexam.defaultsorting.Sorting;
+import finalexam.defaultsorting.*;
 import finalexam.display.MainFrame;
 import finalexam.display.SortingDisplay;
 
@@ -18,6 +16,7 @@ public class SingleModeFrame extends JFrame implements ModeInterface {
     MainFrame mainFrame;
     private Sorting sorting;
     private String currentSelection;
+    private JLabel sortingName;
     public SingleModeFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         // Set default close operation
@@ -79,6 +78,13 @@ public class SingleModeFrame extends JFrame implements ModeInterface {
         // Add the test panel to the center of the frame
         this.sorting = new BubbleSort(App.generateRandomArray(200));
         add(this.sorting.getSortingDisplay(), BorderLayout.CENTER);
+
+        // Create a panel to put the output text in (south)
+        sortingName = new JLabel();
+        sortingName.setHorizontalAlignment(SwingConstants.CENTER);
+        sortingName.setText(currentSelection);
+        add(sortingName, BorderLayout.SOUTH);
+
         // Set frame size
         setSize(800, 600);
 
@@ -105,7 +111,7 @@ public class SingleModeFrame extends JFrame implements ModeInterface {
 
     @Override
     public void resetArray() {
-        int[] newValues = App.generateRandomArray(50);
+        int[] newValues = App.generateRandomArray(200);
         this.sorting.setValues(newValues);
         this.sorting.getSortingDisplay().setValues(newValues);
         this.sorting.getSortingDisplay().repaint();
@@ -113,20 +119,36 @@ public class SingleModeFrame extends JFrame implements ModeInterface {
 
     public void setCurrentSelection(String selection) {
         this.currentSelection = selection;
+        sortingName.setText(selection);
         System.out.println("Change to selection " + selection);
 
-        int[] x = App.generateRandomArray(50);
+        int[] x = App.generateRandomArray(200);
 
-        if (selection.equals("1")) {
-            if (sorting.getSortingDisplay() != null) remove(sorting.getSortingDisplay());
-            sorting = new BubbleSort(x);
-            add(sorting.getSortingDisplay());
-            this.sorting.getSortingDisplay().repaint();
-        } else if (selection.equals("2")) {
-            if (sorting.getSortingDisplay() != null) remove(sorting.getSortingDisplay());
-            sorting = new InsertionSort(x);
-            add(sorting.getSortingDisplay());
-            this.sorting.getSortingDisplay().repaint();
+        // Kiểm tra nếu có sortingDisplay cũ, thì xóa nó đi trước khi thêm mới
+        if (sorting.getSortingDisplay() != null) {
+            remove(sorting.getSortingDisplay());
+            revalidate(); // Cập nhật layout
+            repaint();    // Vẽ lại container
         }
+
+        if (selection.equals("Bubble sort")) {
+            sorting = new BubbleSort(x);
+        } else if (selection.equals("Insertion sort")) {
+            sorting = new InsertionSort(x);
+        } else if (selection.equals("Selection sort")) {
+            sorting = new SelectionSort(x);
+        } else if (selection.equals("Quick sort")) {
+            sorting = new QuickSort(x);
+        } else if (selection.equals("Merge sort")) {
+            sorting = new MergeSort(x);
+        } else {
+            return;
+        }
+
+        // Thêm sortingDisplay mới vào container
+        add(sorting.getSortingDisplay());
+        revalidate(); // Cập nhật layout
+        repaint();    // Vẽ lại container
+        this.sorting.getSortingDisplay().repaint();
     }
-}
+
