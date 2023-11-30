@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SortingDisplay extends JPanel{
-    private static final int WIDTH = 200;
-    private static final int HEIGHT = 300;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
     private static final int DELAY = 5;
     private int[] values;
 
